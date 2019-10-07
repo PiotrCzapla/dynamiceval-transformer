@@ -39,8 +39,8 @@ if [ ! -d $DATA_DIR ]; then
 fi
 
 if [ ! -d $MODEL_DIR ]; then
-    cd $DATA_DIR
-    mkdir -p model && cd model
+    mkdir -p $MODEL_DIR
+    cd $MODEL_DIR
     download ${URL}/tf_wt103/model/checkpoint
     download ${URL}/tf_wt103/model/model.ckpt-0.data-00000-of-00001
     download ${URL}/tf_wt103/model/model.ckpt-0.index
