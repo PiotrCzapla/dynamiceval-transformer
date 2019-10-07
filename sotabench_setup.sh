@@ -39,7 +39,7 @@ if [ ! -d $DATA_DIR ]; then
 fi
 
 if [ ! -d $MODEL_DIR ]; then
-    cd $DATA_ROOT/pretrained_xl
+    cd $DATA_DIR
     mkdir -p model && cd model
     download ${URL}/tf_wt103/model/checkpoint
     download ${URL}/tf_wt103/model/model.ckpt-0.data-00000-of-00001
@@ -49,11 +49,6 @@ if [ ! -d $MODEL_DIR ]; then
 fi
 
 TEST_TGT_LEN=128
-TEST_CKPT_PATH=${MODEL_DIR}/model.ckpt-0
-TEST_BSZ=1
-TEST_NUM_CORE=1
-export CUDA_VISIBLE_DEVICES=0
-
 
 echo 'Preprocess test set...'
 if  [ ! -d $DATA_DIR/tfrecords ] ; then

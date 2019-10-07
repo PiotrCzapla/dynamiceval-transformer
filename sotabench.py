@@ -34,11 +34,11 @@ def main(unused_argv):
 if __name__ == "__main__":
     import sys
     
-    tf.app.run(main, argv="""
-        --data_dir=.//pretrained_xl/tf_wt103/data/tfrecords
-        --record_info_dir=.//pretrained_xl/tf_wt103/data/tfrecords/
-        --corpus_info_path=.//pretrained_xl/tf_wt103/data/corpus-info.json
-        --eval_ckpt_path=.//pretrained_xl/tf_wt103/model/model.ckpt-0
+    tf.app.run(main, argv=f"""
+        --data_dir={dir_path}/tf/pretrained_xl/tf_wt103/data/tfrecords
+        --record_info_dir={dir_path}/tf/pretrained_xl/tf_wt103/data/tfrecords/
+        --corpus_info_path={dir_path}/tf/pretrained_xl/tf_wt103/data/corpus-info.json
+        --eval_ckpt_path={dir_path}/tf/pretrained_xl/tf_wt103/model/model.ckpt-0
         --model_dir=EXP-wt103
         --div_val=4
         --learning_rate=0.000002
