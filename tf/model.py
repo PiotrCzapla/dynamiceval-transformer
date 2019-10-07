@@ -440,7 +440,7 @@ def transformer(dec_inp, target, mems, n_token, n_layer, d_model, d_embed,
                 same_length=False, clamp_len=-1, use_tpu=True,
                 input_perms=None, target_perms=None, head_target=None,
                 untie_r=False, proj_same_dim=True,
-                scope='transformer'):
+                scope='transformer', reduce_loss=True):
   """
   cutoffs: a list of python int. Cutoffs for adaptive softmax.
   tie_projs: a list of python bools. Whether to tie the projections.
@@ -541,5 +541,6 @@ def transformer(dec_inp, target, mems, n_token, n_layer, d_model, d_embed,
         div_val=div_val,
         perms=target_perms,
         head_target=head_target,
-        proj_same_dim=proj_same_dim)
+        proj_same_dim=proj_same_dim,
+        return_mean=reduce_loss)
     return loss, new_mems
