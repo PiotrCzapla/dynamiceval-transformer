@@ -466,16 +466,10 @@ def dynamic_eval(n_token, cutoffs, ps_device):
       fetched = sess.run(fetches, feed_dict=feed_dict)
       
       loss_np, tower_mems_np, cnt_np, lbls_np, neg_lp_np, *_ = fetched
-      yield -float(loss_np), lbls_np
+      yield -float(loss_np * cnt_np), lbls_np
       total_loss += loss_np * cnt_np
       total_cnt += cnt_np
 
     avg_loss = total_loss / total_cnt
     tf.logging.info("| loss {:.2f} | pplx {:>7.2f}, bpc {:>7.4f}, total_cnt: {:}".format(
         avg_loss, math.exp(avg_loss), avg_loss / math.log(2), total_cnt))
-
-
-"""
-      export PATH=/usr/local/cuda-10.0/bin: $PATH
-      export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64: $LD_LIBRARY_PATH
-      python dynamiceval_tf.py """
