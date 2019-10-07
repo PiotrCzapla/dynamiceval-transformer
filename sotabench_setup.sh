@@ -4,6 +4,7 @@ PYTHON=${PYTHON:-"python"}
 REPO="$( cd "$(dirname "$0")" ; pwd -P )"
 $PYTHON -m pip install 'tensorflow-gpu==1.13.1'
 
+apt install -y  python2.7
 # to run legacy scripts on dynamic eval
 python2.7 -m pip install 'tensorflow-gpu==1.13.1'
 cd $REPO/tf
