@@ -1,4 +1,6 @@
 
+from absl import flags
+from absl import app
 import sys
 import os
 
@@ -11,8 +13,8 @@ sys.path.append(f"{dir_path}/tf")  # add tf. to dir path to import dynamic_eval
 os.chdir(f"{dir_path}/tf")
 from dynamiceval_tf_copy_for_sotabench import dynamic_eval, data_utils, FLAGS
 
-def main(unused_argv):
-    del unused_argv  # Unused
+def main(unused_argv=None):
+    print("unused_argv", unused_argv)
     tf.logging.set_verbosity(tf.logging.INFO)
     # Get corpus info
     corpus_info = data_utils.get_corpus_info(FLAGS.corpus_info_path)
@@ -33,8 +35,8 @@ def main(unused_argv):
 
 if __name__ == "__main__":
     import sys
-    
-    tf.app.run(main, argv=f"""
+    argv = f"""
+    IGNORED-PROGNAME
         --data_dir={dir_path}/tf/pretrained_xl/tf_wt103/data/tfrecords
         --record_info_dir={dir_path}/tf/pretrained_xl/tf_wt103/data/tfrecords/
         --corpus_info_path={dir_path}/tf/pretrained_xl/tf_wt103/data/corpus-info.json
@@ -61,4 +63,7 @@ if __name__ == "__main__":
         --clamp_len=1000
         --eval_split=test
         --same_length=True
-    """.split())
+    """.split()
+    FLAGS(argv, known_only=True)
+    assert FLAGS.data_dir == f"{dir_path}/tf/pretrained_xl/tf_wt103/data/tfrecords"
+    main()
