@@ -2,16 +2,18 @@
 source /workspace/venv/bin/activate
 PYTHON=${PYTHON:-"python"}
 REPO="$( cd "$(dirname "$0")" ; pwd -P )"
-$PYTHON -m pip install 'tensorflow-gpu==1.13.1'
+$PYTHON -m pip install 'tensorflow-gpu==1.14'
 
 apt install -y  python2.7 python-pip
+apt install -y wget
 # to run legacy scripts on dynamic eval
-python2.7 -m pip install 'tensorflow-gpu==1.13.1'
+python2.7 -m pip install 'tensorflow-gpu==1.14'
 cd $REPO/tf
 
 # Data
 DATA_ROOT=$REPO/tf
 mkdir -p ~/.cache/torch/pretrained_xl
+
 ln -fs ~/.cache/torch/pretrained_xl ${DATA_ROOT}/pretrained_xl
 DATA_DIR=${DATA_ROOT}/pretrained_xl/tf_wt103/data
 MODEL_DIR=${DATA_ROOT}/pretrained_xl/tf_wt103/model
@@ -29,7 +31,7 @@ function download () {
 }
 
 # wt103
-if [ ! -d $DATA_DIR ]; then
+if [ ! -d $DATA_DIR/cache.pkl ]; then
     cd $DATA_ROOT/pretrained_xl
     mkdir -p tf_wt103 && cd tf_wt103
 
@@ -39,7 +41,7 @@ if [ ! -d $DATA_DIR ]; then
     cd $DATA_ROOT
 fi
 
-if [ ! -d $MODEL_DIR ]; then
+if [ ! -d $MODEL_DIR/checkpoint ]; then
     mkdir -p $MODEL_DIR
     cd $MODEL_DIR
     download ${URL}/tf_wt103/model/checkpoint
