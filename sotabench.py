@@ -27,11 +27,7 @@ def main(unused_argv=None):
         paper_arxiv_id="1904.08378",
         paper_pwc_id="dynamic-evaluation-of-transformer-language",
         #expected perplexity: 16.40
-    )
-
-    generator = dynamic_eval(n_token, cutoffs, "/gpu:0")
-    evaluator.eval(generator)
-    print("Results", evaluator.results)
+    ).eval(dynamic_eval(n_token, cutoffs, "/gpu:0")).print_results()
 
 if __name__ == "__main__":
     import sys
