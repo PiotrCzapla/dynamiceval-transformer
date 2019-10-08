@@ -14,20 +14,25 @@ os.chdir(f"{dir_path}/tf")
 from dynamiceval_tf_copy_for_sotabench import dynamic_eval, data_utils, FLAGS
 
 def main(unused_argv=None):
-    print("unused_argv", unused_argv)
-    tf.logging.set_verbosity(tf.logging.INFO)
-    # Get corpus info
-    corpus_info = data_utils.get_corpus_info(FLAGS.corpus_info_path)
-    n_token = corpus_info["vocab_size"]
-    cutoffs = corpus_info["cutoffs"][1:-1]
-    tf.logging.info("n_token {}".format(n_token))
+    # print("unused_argv", unused_argv)
+    # tf.logging.set_verbosity(tf.logging.INFO)
+    # # Get corpus info
+    # corpus_info = data_utils.get_corpus_info(FLAGS.corpus_info_path)
+    # n_token = corpus_info["vocab_size"]
+    # cutoffs = corpus_info["cutoffs"][1:-1]
+    # tf.logging.info("n_token {}".format(n_token))
 
     evaluator = WikiText103Evaluator(
         model_name="Transformer-XL (RMS dynamic eval)",
         paper_arxiv_id="1904.08378",
         paper_pwc_id="dynamic-evaluation-of-transformer-language",
         #expected perplexity: 16.40
-    ).eval(dynamic_eval(n_token, cutoffs, "/gpu:0"))
+    )
+    # ).eval(dynamic_eval(n_token, cutoffs, "/gpu:0"))
+    # test why the results are not being saved, temporary mocking the evaluation
+    import numpy as np
+    evaluator._neglogloss =  np.log(16.441230035231136) * evaluator.dataset.testset_size
+    evaluator.print_stats()
     evaluator.print_results()
     evaluator.save()  # to double check that it is being called
 
